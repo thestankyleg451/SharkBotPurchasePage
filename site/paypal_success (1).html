@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment submitted</title>
+  <style>
+    :root {
+      --bg0: #0b0f17;
+      --bg1: #0f172a;
+      --card: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: rgba(255, 255, 255, 0.92);
+      --muted: rgba(255, 255, 255, 0.68);
+      --accent: #22c55e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(99,102,241,0.20), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(59,130,246,0.18), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+    .card {
+      width: min(860px, 100%);
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.03), 0 0 24px rgba(34,197,94,0.25);
+    }
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -0.02em;
+    }
+    p { margin: 0; color: var(--muted); line-height: 1.55; font-size: 15px; }
+    .grid { margin-top: 18px; display: grid; gap: 12px; }
+    .box {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    code {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.88);
+      word-break: break-all;
+    }
+    .footer { margin-top: 16px; color: rgba(255,255,255,0.55); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <div class="badge"><span class="dot"></span> PayPal redirect</div>
+    <h1>Payment submitted</h1>
+    <div class="grid">
+      <div class="box">
+        <p>Thanks for your purchase. Your payment was submitted successfully.</p>
+        <p id="ref" style="margin-top:10px; display:none;"><strong>Reference</strong>: <code id="token"></code></p>
+        <p style="margin-top:10px;">Return to Discord to finish up.</p>
+      </div>
+      <div class="box">
+        <p><strong>Next step</strong>: return to your Discord purchase ticket. The bot will confirm payment and post your key there.</p>
+        <p style="margin-top:10px;">If you don’t see an update after a minute or two, just wait—PayPal can take a moment to finalize.</p>
+      </div>
+    </div>
+    <div class="footer">You can close this tab once you’re back in Discord.</div>
+  </main>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search || "");
+        var t = params.get("token") || params.get("PayerID") || "";
+        if (t) {
+          document.getElementById("token").textContent = t;
+          document.getElementById("ref").style.display = "block";
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
+
